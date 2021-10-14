@@ -1,0 +1,42 @@
+.container{
+    margin-bottom: 10%;
+    margin-left: 15%;
+    margin-right: 3%;
+}
+.jumbotron{
+    color: turquoise;
+    background-color: black;
+    text-align: center;
+    border-radius: 2px;
+
+}
+.time-block{
+    border-radius: 15px;
+}
+.saveBtn{
+    background-color: turquoise;
+    border: 1px solid black;
+}
+textarea{
+    border: 1px solid turquoise;
+}
+body{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 18px;
+    line-height: 2;
+    background-color: darkslategray;
+}
+.localStorageText{
+    text-align: center;
+    color: coral;
+    
+}
+.row {
+    white-space: pre-wrap;
+    height: 150px;
+    border-top: 1px solid white;
+  }
+  .deleteBtn{
+    background-color: red;
+    border: 1px solid black;
+}
