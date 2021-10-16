@@ -40,3 +40,50 @@ body{
     background-color: red;
     border: 1px solid black;
 }
+
+.eventList{
+    list-style: none;
+}
+.past{
+    background-color: crimson;
+    color: black;
+}
+.present{
+    background-color: dodgerblue;
+    color:black
+}
+.future{
+    background-color: chartreuse;
+    color: black;
+
+}
+.blank{
+    background-color: white;
+}
+
+@media screen and (max-width: 900px){
+
+    .container{
+        margin-bottom: 10%;
+        margin-left: 10%;
+        margin-right: 5%;
+    }
+}
+
+@media screen and (max-width: 775px){
+
+    .container{
+        margin-bottom: 5%;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+}
+
+@media screen and (max-width: 550px){
+
+    .container{
+        margin-bottom: 0%;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+}

@@ -3,7 +3,7 @@ moment(Date);
 //Function to run the internal clock in jumbotron
 function runTime(){
     //JQuery select currentDatTime element with matching class call moment.format()
-$('#currentDateTime').text(moment().format('ddd MMM do YYY, h:mm:ss'));
+$('#currentDateTime').text(moment().format('ddd MMM Do, YYYY, h:mm:ss:A'));
 }
 
 //setInterval for runTime to every second
@@ -17,67 +17,106 @@ var startingTime = moment().startOf('day').add(8, 'hours');
 
 var slotArray = [8,9,10,11,12,1,2,3,4,5];
 
-var times = []
+var time;
+
+function resetTime(){
+    time = 0;
+    return
+}
+
 
 for(var i = 0; i < slotArray.length; i++){
     
     if(i == 0){
-        times[i] = startingTime.add(0,'h');
-        times[i] = times[i].format('hh:mm:A');
-        $('.slot' + slotArray[i]).text(times[i]);
-        $('.form' + slotArray[i]).attr("placeholder", "");
+        time = startingTime.add(0,'h');
+        time = time.format('hh:mm:A');
+        $('.slot' + slotArray[i]).text(time);
+        
+        
     }
     else{
-        times[i] = startingTime.add(1,'h');
-        times[i] = times[i].format('hh:mm:A');
-        $('.slot' + slotArray[i]).text(times[i]);
-        $('.form' + slotArray[i]).attr("placeholder", "");
+        time = startingTime.add(1,'h');
+        time = time.format('hh:mm:A');
+        $('.slot' + slotArray[i]).text(time);
     }
+       
+}
 
     
-}
-currentTime = moment().startOf('hour');
 
-for(var i = 0; i < slotArray.length; i++){
-    currentTime = moment().startOf('hour');
-    times[i] = moment().startOf('day').add(slotArray[i], 'hours')
-    if(currentTime.isAfter(times[i]
-        )){
-
-    }
-
-}
-
-for (var i = 0; i < slotArray.length; i++) {
-    var dataHour = localStorage.getItem(slotArray[i]);
-    // form - control
-    $(".form" + slotArray[i]).val(dataHour);
-}
+resetTime();
 
 $(".saveBtn").click(function () {
     event.preventDefault();
     var formValue = $(this).siblings(".form-control").val();
     console.log("Click Text Save");
     var listItem = $(this).parent().data("hour");
-
+    
+    
+    $('.localStorageText').text("Added to Local Storage ✔️");
+    
+    
     localStorage.setItem(listItem, formValue);
 
-    $('.localStorageText').text("Added to local storage ✔️");
+
+    console.log($(this).siblings().children().text())
+
+    currentTime = moment().startOf('hour').format('hh:mm:A');
+
+    console.log(currentTime);
+
+    time = $(this).siblings().children().text();
+
+    console.log(time);
+
+    
+
+    // console.log($(this).siblings().eq(1).val())
+
+
+        if(currentTime > time){
+            $(this).siblings('.form-control').addClass('past');
+            
+            console.log("Success1");
+        }
+        else if(currentTime < time){
+            $(this).siblings('.form-control').addClass('future');
+            console.log("Success2");
+        }
+        else if(currentTime === time){
+        
+            $(this).siblings('.form-control').addClass('present');
+            console.log("Success3");
+
+        }
+
+
 });
 
 $('.deleteBtn').click(function() {
     event.preventDefault();
-    var formValue = $(this).siblings(".form-control").val(" ");
     console.log("Click Test Delete")
     var listItem = $(this).parent().data("hour");
-
-    if(formValue === " "){
-        $('.localStorageText').text("No Event to Delete");
-    }
-    else{
+    $(this).siblings('.form-control').val(" ")
+    $(this).siblings('.form-control').addClass('blank');
         
-        $('.localStorageText').text("Event Deleted ❌");
-    }
-    localStorage.setItem(listItem, formValue)
+    $('.localStorageText').text("Event Deleted ❌");
+    
+    localStorage.removeItem(listItem);
+
+   
+    
+    
 })
 
+
+
+
+for (var i = 0; i < slotArray.length; i++) {
+    var dataHour = localStorage.getItem(slotArray[i]);
+    // form - control
+    $(".form" + slotArray[i]).val(dataHour);
+    // var formEl = document.getElementsByClassName('.form' + slotArray[i]);
+    // // formEl.textContent = " ";
+   
+}
