@@ -39,4 +39,5 @@ image URL located within project: ![alt text](./assets/images/workDayPlanner.gif
 
 # Link
 URL Link to website: https://jpspann91.github.io/WorkDayPlanner/
+
 Link to GitHub Repo: https://github.com/jpspann91/WorkDayPlanner/
