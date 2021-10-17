@@ -27,7 +27,7 @@ body{
 .time-block{
     border-radius: 15px;
     background-color:black;
-    color: cyan;
+    color: turquoise;
 }
 .saveBtn{
     background-color: turquoise;
@@ -46,7 +46,7 @@ body{
     border-top: 1px solid white;
   }
   .deleteBtn{
-    background-color: red;
+    background-color: crimson;
     border: 1px solid black;
 }
 /*Remove style from list*/
