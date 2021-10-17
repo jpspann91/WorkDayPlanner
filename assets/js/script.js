@@ -15,7 +15,7 @@ var currentTime = moment();
 //startingTime is 8am, work week is 8am - 5pm
 var startingTime = moment().startOf('day').add(8, 'hours');
 
-var slotArray = [8,9,10,11,12,1,2,3,4,5];
+var slotArray = [8,9,10,11,12,13,14,15,16,17];
 
 var time;
 
@@ -30,9 +30,7 @@ for(var i = 0; i < slotArray.length; i++){
     if(i == 0){
         time = startingTime.add(0,'h');
         time = time.format('hh:mm:A');
-        $('.slot' + slotArray[i]).text(time);
-        
-        
+        $('.slot' + slotArray[i]).text(time);  
     }
     else{
         time = startingTime.add(1,'h');
@@ -42,70 +40,95 @@ for(var i = 0; i < slotArray.length; i++){
        
 }
 
+resetTime();
+
+
+
+function checkTime(item){
+
+    currentTime = moment().startOf('hour').format('hh:mm:A');
+    console.log(currentTime);
+
+    var currentMod = currentTime.substring(6)
+    var currentInt = parseInt(currentTime.substring(0,2));
+
+    
+    console.log(currentMod);
+
+    if(currentInt < 12 && currentMod == "PM"){
+        currentInt += 12;
+    }
+    console.log(item);
+    console.log(currentInt);
     
 
-resetTime();
+    if(currentInt > item){
+        console.log("Success1");
+                return 'past';
+            
+        }
+        else if(currentInt < item){
+            console.log("Success2");
+            return 'future';
+            
+        }
+        else if(currentInt === item){
+            console.log("Success3");
+            return 'present';
+            
+    
+        }
+    
+}
 
 $(".saveBtn").click(function () {
     event.preventDefault();
     var formValue = $(this).siblings(".form-control").val();
+
+    if(formValue == "" || formValue == " "){
+        // alert("Please enter an event");
+        $('.localStorageText').text("No Event Added");
+        throw new Error("Please enter in an event");
+        
+    }
+
     console.log("Click Text Save");
     var listItem = $(this).parent().data("hour");
-    
-    
+
     $('.localStorageText').text("Added to Local Storage ✔️");
-    
     
     localStorage.setItem(listItem, formValue);
 
+    $(this).siblings('.form-control').removeClass('blank');
 
-    console.log($(this).siblings().children().text())
-
-    currentTime = moment().startOf('hour').format('hh:mm:A');
-
-    console.log(currentTime);
-
-    time = $(this).siblings().children().text();
-
-    console.log(time);
+    $(this).siblings('.form-control').addClass(checkTime(listItem));
 
     
-
-    // console.log($(this).siblings().eq(1).val())
-
-
-        if(currentTime > time){
-            $(this).siblings('.form-control').addClass('past');
-            
-            console.log("Success1");
-        }
-        else if(currentTime < time){
-            $(this).siblings('.form-control').addClass('future');
-            console.log("Success2");
-        }
-        else if(currentTime === time){
-        
-            $(this).siblings('.form-control').addClass('present');
-            console.log("Success3");
-
-        }
-
-
 });
 
 $('.deleteBtn').click(function() {
     event.preventDefault();
     console.log("Click Test Delete")
-    var listItem = $(this).parent().data("hour");
-    $(this).siblings('.form-control').val(" ")
-    $(this).siblings('.form-control').addClass('blank');
+
+    var formValue = $(this).siblings(".form-control").val();
+
+    if(formValue == "" || formValue == " "){
+        // alert("No Event to Delete");
+        $('.localStorageText').text("No Event Deleted");
+        throw new Error("No Event to delete");
         
+    }
+    var listItem = $(this).parent().data("hour");
+    $(this).siblings('.form-control').val(" ");
+    $(this).siblings('.form-control').addClass('blank');
+    // $(this).siblings('.form-control').css('background-color', 'white');
+    
+    console.log($(this).siblings('.form-control').val());
+    
+
     $('.localStorageText').text("Event Deleted ❌");
     
     localStorage.removeItem(listItem);
-
-   
-    
     
 })
 
@@ -116,7 +139,13 @@ for (var i = 0; i < slotArray.length; i++) {
     var dataHour = localStorage.getItem(slotArray[i]);
     // form - control
     $(".form" + slotArray[i]).val(dataHour);
-    // var formEl = document.getElementsByClassName('.form' + slotArray[i]);
-    // // formEl.textContent = " ";
+    var formEl = document.getElementsByClassName('.form' + slotArray[i]);
+    formEl.textContent = " ";
+    
+    if(!dataHour == ""){
+        $(".form" + slotArray[i]).addClass(checkTime(slotArray[i]));
+    }
+
    
 }
+$('.eventList').sortable();
